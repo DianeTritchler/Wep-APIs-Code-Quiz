@@ -3,11 +3,14 @@ var timerEl = document.getElementById("timer");
 var questionEl = document.getElementById("question/title");
 var instructionEl = document.getElementById("instructions");
 var startButtonEl = document.querySelector("#start");
+var allButtons = document.querySelector('button');
 var btn1 = document.getElementById("anwser1");
 var btn2 = document.getElementById("anwser2");
 var btn3 = document.getElementById("anwser3");
 var btn4 = document.getElementById("anwser4");
 var timeLeft = 0;
+var questionNum = 0;
+
 
 //Styling
 timerEl.setAttribute("style","text-align: right");
@@ -51,47 +54,42 @@ function timer(){
 }
 
 function quizRunner(){
-  var questionCounter = 0;
-  
-  while(timeLeft>0){
-    askQuestion(questionCounter);
-    console.log("Test - quiz Runner Loop" + questionCounter);
-    questionCounter++;
-  }
-  
-    
+  var rightOrWrong;
+  console.log(questionNum);
+  if(timeLeft < 1){
+    return; 
+  }else{
+
+    questionEl.textContent = questions[questionNum].question;
+    btn1.innerHTML = questions[questionNum].option1;
+    btn2.innerHTML = questions[questionNum].option2;
+    btn3.innerHTML = questions[questionNum].option3;
+    btn4.innerHTML = questions[questionNum].option4;
+
+    allButtons.addEventListener("click", function(event) {
+      event.preventDefault();
+      console.log("Clink"); // Test
+      selectedAnwser = event.target;
+      rightOrWrong = checkAnwser(selectedAnwser);
+      questionNum++;
+      quizRunner;
+    });
+
+    console.log("After Click");//test
+
+  }  
 
 }
 
-function askQuestion(questionNum){
-  var selectedAnwser;
-  var wasAnwserRight;
 
-  questionEl.textContent = questions[questionNum].question;
 
-  
-  btn1.innerHTML = questions[questionNum].option1;
-  btn2.innerHTML = questions[questionNum].option2;
-  btn3.innerHTML = questions[questionNum].option3;
-  btn4.innerHTML = questions[questionNum].option4;
-
-  var allButtons = document.querySelector('button');
-
-  allButtons.addEventListener("click", function(event) {
-    selectedAnwser = event.target;
-    wasAnwserRight = checkAnwser(selectedAnwser);
-  });
-  
-  return;
-
-}
 
 //Take User Input
 
 //Check Users Anwser
 function checkAnwser(selected){
-  console.log("Test - Check Anwser"); 
-  return "Yes";
+  console.log("Test - Check Anwser"); //Test
+  return "Right";
 };
 
 //Decrease Time For Wrong Anwser
